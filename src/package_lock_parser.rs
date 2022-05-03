@@ -41,20 +41,6 @@ mod tests {
     use std::fs;
 
     #[test]
-    fn clean_package_name_works() {
-        let package_name = "node_modules/light-my-request/node_modules/ajv";
-        let package_name_cleaned = clean_package_name(package_name);
-        assert_eq!(package_name_cleaned, "ajv");
-    }
-
-    #[test]
-    fn clean_package_name_works_with_namespaced_packages() {
-        let package_name = "node_modules/light-my-request/node_modules/@walmart/test";
-        let package_name_cleaned = clean_package_name(package_name);
-        assert_eq!(package_name_cleaned, "@walmart/test");
-    }
-
-    #[test]
     fn packages_to_packages_versions_works() -> Result<(), Box<dyn Error>> {
         let pkg_str = fs::read_to_string("test_fixtures/package-lock.minimal.json")?;
         let package_lock: PackageLock = serde_json::from_str(&pkg_str)?;
@@ -69,5 +55,19 @@ mod tests {
         assert!(packages_versions.contains_key(""));
         assert_eq!(packages_versions.get("").unwrap().get(0).unwrap(), "1.0.0");
         Ok(())
+    }
+
+    #[test]
+    fn clean_package_name_works() {
+        let package_name = "node_modules/light-my-request/node_modules/ajv";
+        let package_name_cleaned = clean_package_name(package_name);
+        assert_eq!(package_name_cleaned, "ajv");
+    }
+
+    #[test]
+    fn clean_package_name_works_with_namespaced_packages() {
+        let package_name = "node_modules/light-my-request/node_modules/@walmart/test";
+        let package_name_cleaned = clean_package_name(package_name);
+        assert_eq!(package_name_cleaned, "@walmart/test");
     }
 }

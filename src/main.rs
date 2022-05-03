@@ -18,4 +18,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     dbg!(&not_found);
 
     Ok(())
+    // TODO - bring in semver
+    // https://github.com/dtolnay/semver#requirements
 }
