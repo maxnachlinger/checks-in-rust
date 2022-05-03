@@ -2,8 +2,8 @@ use semver::VersionReq;
 use std::error::Error;
 use std::fs;
 
-mod package_lock_parser;
-use package_lock_parser::*;
+mod package_lock;
+use package_lock::*;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let pkg_str = fs::read_to_string("test_fixtures/package-lock.small.json")?;
@@ -20,6 +20,4 @@ fn main() -> Result<(), Box<dyn Error>> {
     dbg!(&result);
 
     Ok(())
-    // TODO - bring in semver
-    // https://github.com/dtolnay/semver#requirements
 }
