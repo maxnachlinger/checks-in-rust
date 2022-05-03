@@ -19,6 +19,8 @@ fn clean_package_name(name: &str) -> &str {
 
 pub fn packages_to_packages_versions(
     packages: &HashMap<String, Package>,
+    // using Vec<String> for versions since we don't et duplicates in package-lock.packages
+    // if I'm wrong, we'll use a HashSet<String> :)
 ) -> HashMap<String, Vec<String>> {
     packages
         .into_iter()
