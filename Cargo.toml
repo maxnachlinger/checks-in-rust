@@ -1,5 +1,5 @@
 [package]
-name = "package-json-parser"
+name = "checks-in-rust"
 version = "0.1.0"
 edition = "2021"
 

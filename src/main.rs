@@ -5,7 +5,7 @@ mod package_lock_parser;
 use package_lock_parser::*;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let pkg_str = fs::read_to_string("example/package-lock.json")?;
+    let pkg_str = fs::read_to_string("test_fixtures/package-lock.small.json")?;
     let package_lock: PackageLock = serde_json::from_str(&pkg_str)?;
 
     let packages_versions = packages_to_packages_versions(&package_lock.packages);
