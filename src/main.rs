@@ -1,3 +1,4 @@
+use semver::VersionReq;
 use std::error::Error;
 use std::fs;
 
@@ -9,13 +10,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     let package_lock: PackageLock = serde_json::from_str(&pkg_str)?;
 
     let packages_versions = packages_to_packages_versions(&package_lock.packages);
-    dbg!(&packages_versions);
 
-    let found = &packages_versions.get("ajv");
-    dbg!(&found);
+    let result = package_version_exists(
+        &packages_versions,
+        "ajv",
+        &VersionReq::parse(">=15").unwrap(),
+    );
 
-    let not_found = &packages_versions.get("zzzzz");
-    dbg!(&not_found);
+    dbg!(&result);
 
     Ok(())
     // TODO - bring in semver
