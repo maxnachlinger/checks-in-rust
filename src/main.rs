@@ -9,13 +9,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     let pkg_str = fs::read_to_string("test_fixtures/package-lock.small.json")?;
     let package_lock: PackageLock = serde_json::from_str(&pkg_str)?;
 
-    let packages_versions = packages_to_packages_versions(&package_lock.packages);
+    let packages_versions = PackagesVersions::new(&package_lock.packages);
 
-    let result = package_version_exists(
-        &packages_versions,
-        "ajv",
-        &VersionReq::parse(">=15").unwrap(),
-    );
+    let result = packages_versions.version_exists("ajv", &VersionReq::parse(">=15").unwrap());
 
     dbg!(&result);
 
