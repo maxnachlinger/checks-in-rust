@@ -40,7 +40,11 @@ impl PackagesVersions {
         }
     }
 
-    pub fn version_exists(&self, package_name: &str, version_requirement: &VersionReq) -> bool {
+    pub fn package_version_exists(
+        &self,
+        package_name: &str,
+        version_requirement: &VersionReq,
+    ) -> bool {
         self.data
             .get(package_name)
             .map(|value| {
@@ -64,14 +68,19 @@ mod tests {
         let package_lock: PackageLock = serde_json::from_str(&pkg_str)?;
         let packages_versions = PackagesVersions::new(&package_lock.packages);
 
-        assert!(packages_versions.version_exists("lodash", &VersionReq::parse(">=4").unwrap()));
-        assert!(!packages_versions.version_exists("lodash", &VersionReq::parse(">=99999").unwrap()));
-        assert!(!packages_versions.version_exists("zzzzzz", &VersionReq::parse(">=0").unwrap()));
+        assert!(
+            packages_versions.package_version_exists("lodash", &VersionReq::parse(">=4").unwrap())
+        );
+        assert!(!packages_versions
+            .package_version_exists("lodash", &VersionReq::parse(">=99999").unwrap()));
+        assert!(
+            !packages_versions.package_version_exists("zzzzzz", &VersionReq::parse(">=0").unwrap())
+        );
         Ok(())
     }
 
     #[test]
-    fn packages_to_packages_versions_works() -> Result<(), Box<dyn Error>> {
+    fn packages_versions_new_works() -> Result<(), Box<dyn Error>> {
         let pkg_str = fs::read_to_string("test_fixtures/package-lock.minimal.json")?;
         let package_lock: PackageLock = serde_json::from_str(&pkg_str)?;
         let packages_versions = PackagesVersions::new(&package_lock.packages);

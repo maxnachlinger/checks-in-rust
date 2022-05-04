@@ -11,7 +11,8 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let packages_versions = PackagesVersions::new(&package_lock.packages);
 
-    let result = packages_versions.version_exists("ajv", &VersionReq::parse(">=15").unwrap());
+    let result =
+        packages_versions.package_version_exists("ajv", &VersionReq::parse(">=15").unwrap());
 
     dbg!(&result);
 
